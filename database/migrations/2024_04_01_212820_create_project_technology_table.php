@@ -1,10 +1,10 @@
 <?php
 
+use App\Models\Project;
+use App\Models\Technology;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use App\Models\Project;
-use App\Models\Technology;
 
 return new class extends Migration
 {
@@ -13,10 +13,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('project_tehcnology', function (Blueprint $table) {
+        Schema::create('project_technology', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Project::class)->contrained()->cascadeOnDelete();
-            $table->foreignIdFor(Technology::class)->contrained()->cascadeOnDelete();
+            $table->foreignIdFor(Project::class)->constrained()->cascadeOnDelete();
+            $table->foreignIdFor(Technology::class)->constrained()->cascadeOnDelete();
             // $table->timestamps();
         });
     }
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('project_tehcnology');
+        Schema::dropIfExists('project_technology');
     }
 };

@@ -30,7 +30,7 @@ class ProjectController extends Controller
     public function create()
     {   
         $types = Type::select('label', 'id')->get();
-        $technologies = Technology::select('label', 'id');
+        $technologies = Technology::select('label', 'id')->get();
         $project = new Project();
         return view('admin.projects.create', compact('project', 'types', 'technologies'));
     }
@@ -47,20 +47,26 @@ class ProjectController extends Controller
             'description'=> 'required|string',
             'image'=> 'nullable|image|mimes:png,jpg,jpeg',
             'type_id'=> 'nullable|exists:types,id',
-            'technology_id'=> 'nullable|exists:technologies,id'
+            'technology_id'=> 'nullable|exists:technologies,id',
+            'technologies'=>'nullable|exists:technologies,id'
         ]);
 
         $project = new Project();
 
         $project->fill($data);
 
-        if(Arr::exists($data, 'image')){
-            $extension = $data['image']->extension();
-           $img_url =  Storage::putFile('project_images', $data['image'], "$project->title.$extension");
-           $project->image = $img_url;
-        }
+        // if(Arr::exists($data, 'image')){
+        //     $extension = $data['image']->extension();
+        //    $img_url =  Storage::putFile('project_images', $data['image'], "$project->title.$extension");
+        //    $project->image = $img_url;
+        // }
 
         $project->save();
+
+
+        if(Arr::exists($data, 'tags')){
+            $project->technologies()->attach($data['tags']);
+        }
 
         return to_route('admin.projects.index');
     }
@@ -78,9 +84,11 @@ class ProjectController extends Controller
      */
     public function edit(Project $project)
     {
+        $prev_technologies = $project->technologies->pluck('id')->toArray();
+        
         $types = Type::select('label', 'id')->get();
-        $technologies = Technology::select('label', 'id');
-        return view('admin.projects.edit', compact('project', 'types', 'technologies'));
+        $technologies = Technology::select('label', 'id')->get();
+        return view('admin.projects.edit', compact('project', 'types', 'technologies', 'prev_technologies'));
     }
 
     /**
@@ -95,19 +103,25 @@ class ProjectController extends Controller
             'description'=> 'required|string',
             'image'=> 'nullable|image|mimes:png,jpg,jpeg',
             'type_id'=> 'nullable|exists:types,id',
-            'technology_id'=> 'nullable|exists:technologies,id'
+            'technology_id'=> 'nullable|exists:technologies,id',
+            'technologies'=>'nullable|exists:technologies,id'
         ]);
 
-        if(Arr::exists($data, 'image')){
-            $extension = $data['image']->extension();
+        // if(Arr::exists($data, 'image')){
+        //     $extension = $data['image']->extension();
 
-            $img_url =  Storage::putFile('project_images', $data['image'], "$project->title.$extension");
-            $project->image = $img_url;
-         }; 
+        //     $img_url =  Storage::putFile('project_images', $data['image'], "$project->title.$extension");
+        //     $project->image = $img_url;
+        //  }; 
 
         $project->fill($data);
 
         $project->update($data);
+         if(Arr::exists($data, 'tags')){
+             $project->technologies()->sync($data['tags']);
+        } elseif(!Arr::exists($data, 'tags') && $project->has('technologies')) {
+            $project->technologies()->detach();
+        }
 
         return to_route('admin.projects.show', $project); 
     }
@@ -117,6 +131,12 @@ class ProjectController extends Controller
      */
     public function destroy(Project $project)
     {
+        if($project->has('technologies')){
+            $project->technologies()->detach();
+        }
+        if($project->image){
+            Storage::delete($project->image);
+        }
         $project->delete();
         return to_route('admin.projects.index');
     }
