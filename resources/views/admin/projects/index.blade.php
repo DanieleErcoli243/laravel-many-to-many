@@ -10,6 +10,7 @@
         <tr>
             <th>Titolo</th>
             <th>Tipo</th>
+            <th>Tecnologie</th>
             <th>Descrizione</th>
             <th>Immagine</th>
             <th>
@@ -24,6 +25,13 @@
         <tr>
             <td>{{ $project->title }}</td>
             <td>{{ $project->type ? $project->type->label : '-' }}</td>
+            <td>
+                @forelse($technologies as $technology)
+                {{ $project->technology ? $project->technology : ''}}
+                @empty
+                Nessuno
+                @endforelse
+            </td>
             <td>{{ $project->description }}</td>
             <td>{{ $project->image }}</td>
             <td>

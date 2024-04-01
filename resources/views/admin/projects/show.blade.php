@@ -14,8 +14,9 @@
         </div>
         <div>
             <h3>{{ $project->title }}</h3>
-            <h4>Categoria: @if($project->type) {{ $project->type->label }} @else 'Nessuna' @endif</4>
-            <p>{{ $project->description }}</p>
+            <h4>Categoria: @if($project->type) {{ $project->type->label }} @else {{'Nessuna'}} @endif</4>
+            <h4>Linguaggi: @if($project->label) {{ $project->type->label }} @else {{'Nessuno'}} @endif</4>
+            <p>Descrizione: {{ $project->description }}</p>
         </div>
         <div class="navigation">
             <a href=" {{ route('admin.projects.index')}} ">

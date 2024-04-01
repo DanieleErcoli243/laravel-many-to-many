@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\Technology;
 use App\Models\Type;
 use App\Models\Project;
 use Illuminate\Http\Request;
@@ -18,8 +19,9 @@ class ProjectController extends Controller
     public function index()
     {
         $types = Type::select('label', 'id')->get();
+        $technologies = Technology::select('label', 'id');
         $projects = Project::all();
-        return view('admin.projects.index', compact('projects','types'));
+        return view('admin.projects.index', compact('projects','types', 'technologies'));
     }
 
     /**
