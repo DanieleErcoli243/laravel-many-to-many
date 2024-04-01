@@ -6,7 +6,7 @@
 
 
 
-<form action="{{ route('admin.types.store }}" method="POST">
+<form action="{{ route('admin.types.store) }}" method="POST">
     @csrf
     <label for="label">Inserisci etichetta</label>
     <input type="text" id="label" name="label" value="{{ old('label', '') }}">

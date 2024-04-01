@@ -5,7 +5,7 @@
 @section('content')
 
 
-<form action="{{ route('admin.types.update }}" method="post">
+<form action="{{ route('admin.types.update) }}" method="POST">
 @csrf
 @method('PUT')
     <label for="label">Modifica etichetta</label>

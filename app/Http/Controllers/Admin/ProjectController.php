@@ -28,8 +28,9 @@ class ProjectController extends Controller
     public function create()
     {   
         $types = Type::select('label', 'id')->get();
+        $technologies = Technology::select('label', 'id');
         $project = new Project();
-        return view('admin.projects.create', compact('project', 'types'));
+        return view('admin.projects.create', compact('project', 'types', 'technologies'));
     }
 
     /**
@@ -43,7 +44,8 @@ class ProjectController extends Controller
             'title'=>'unique:projects|string|required',
             'description'=> 'required|string',
             'image'=> 'nullable|image|mimes:png,jpg,jpeg',
-            'type_id'=> 'nullable|exists:types,id'
+            'type_id'=> 'nullable|exists:types,id',
+            'technology_id'=> 'nullable|exists:technologies,id'
         ]);
 
         $project = new Project();
@@ -75,7 +77,8 @@ class ProjectController extends Controller
     public function edit(Project $project)
     {
         $types = Type::select('label', 'id')->get();
-        return view('admin.projects.edit', compact('project', 'types'));
+        $technologies = Technology::select('label', 'id');
+        return view('admin.projects.edit', compact('project', 'types', 'technologies'));
     }
 
     /**
@@ -89,7 +92,8 @@ class ProjectController extends Controller
             'title'=>[Rule::unique('projects')->ignore($project->id), 'string', 'required'],
             'description'=> 'required|string',
             'image'=> 'nullable|image|mimes:png,jpg,jpeg',
-            'type_id'=> 'nullable|exists:types,id'
+            'type_id'=> 'nullable|exists:types,id',
+            'technology_id'=> 'nullable|exists:technologies,id'
         ]);
 
         if(Arr::exists($data, 'image')){
