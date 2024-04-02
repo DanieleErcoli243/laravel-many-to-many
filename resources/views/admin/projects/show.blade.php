@@ -15,13 +15,15 @@
         <div>
             <h3>{{ $project->title }}</h3>
             <h4>Categoria: @if($project->type) {{ $project->type->label }} @else {{'Nessuna'}} @endif</4>
-            <h4>Linguaggi:
+           <div>
                 @forelse($project->technologies as $technology)
-                {{ $technology->label }} @if(count($project->technologies) > 1) , @endif.
+                <span class="techs">
+                    {{ $technology->label }}
+                </span>
                 @empty
-                Nessuno
+                    <p>Nessuno</p>    
                 @endforelse
-            </4>
+            </div>
             <p>Descrizione: {{ $project->description }}</p>
         </div>
         <div class="navigation">
