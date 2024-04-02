@@ -40,19 +40,18 @@ class ProjectController extends Controller
      */
     public function store(Request $request)
     {
-
         
-         $data = $request->validate([
-            'title'=>'unique:projects|string|required',
-            'description'=> 'required|string',
-            'image'=> 'nullable|image|mimes:png,jpg,jpeg',
-            'type_id'=> 'nullable|exists:types,id',
-            'technology_id'=> 'nullable|exists:technologies,id',
-            'technologies'=>'nullable|exists:technologies,id'
+        $data = $request->validate([
+            'title' => 'unique:projects|string|required',
+            'description' => 'required|string',
+            'image' => 'nullable|image|mimes:png,jpg,jpeg',
+            'type_id' => 'nullable|exists:types,id',
+            'technologies' => 'nullable|exists:technologies,id'
         ]);
-
+        
+        
         $project = new Project();
-
+        
         $project->fill($data);
 
         // if(Arr::exists($data, 'image')){
@@ -64,8 +63,8 @@ class ProjectController extends Controller
         $project->save();
 
 
-        if(Arr::exists($data, 'tags')){
-            $project->technologies()->attach($data['tags']);
+        if(Arr::exists($data, 'technologies')){
+            $project->technologies()->attach($data['technologies']);
         }
 
         return to_route('admin.projects.index');
@@ -96,15 +95,14 @@ class ProjectController extends Controller
      */
     public function update(Request $request, Project $project)
     {
-
+        
         
         $data = $request->validate([
-            'title'=>[Rule::unique('projects')->ignore($project->id), 'string', 'required'],
-            'description'=> 'required|string',
-            'image'=> 'nullable|image|mimes:png,jpg,jpeg',
-            'type_id'=> 'nullable|exists:types,id',
-            'technology_id'=> 'nullable|exists:technologies,id',
-            'technologies'=>'nullable|exists:technologies,id'
+            'title' => [Rule::unique('projects')->ignore($project->id), 'string', 'required'],
+            'description' => 'required|string',
+            'image' => 'nullable|image|mimes:png,jpg,jpeg',
+            'type_id' => 'nullable|exists:types,id',
+            'technologies' => 'nullable|exists:technologies,id'
         ]);
 
         // if(Arr::exists($data, 'image')){
@@ -117,9 +115,10 @@ class ProjectController extends Controller
         $project->fill($data);
 
         $project->update($data);
-         if(Arr::exists($data, 'tags')){
-             $project->technologies()->sync($data['tags']);
-        } elseif(!Arr::exists($data, 'tags') && $project->has('technologies')) {
+
+         if(Arr::exists($data, 'technologies')){
+             $project->technologies()->sync($data['technologies']);
+        } elseif (!Arr::exists($data, 'technologies') && $project->has('technologies')) {
             $project->technologies()->detach();
         }
 
