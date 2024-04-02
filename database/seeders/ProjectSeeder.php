@@ -53,22 +53,22 @@ class ProjectSeeder extends Seeder
             ],
             [
                 'title' => 'Boolean Academy',
-                'description' => 'A first approach to responsive layout made with media-queries desktop-first.',
+                'description' => 'A first approach to responsive layouts made with media-queries desktop-first.',
                 'image' => '',
             ],
             [
                 'title' => 'Giallo Booleano',
-                'description' => 'A clone of a site of recipes with responsive layout, made with media-queries mobile-first.',
+                'description' => 'The clone of a site of recipes with responsive layouts, made with media-queries mobile-first.',
                 'image' => '',
             ],
             [
                 'title' => 'SpotifyWeb',
-                'description' => 'A clone of the well-know musical streaming service, with a responsive layout made with meadia-queries mobile-first.',
+                'description' => 'The clone of the well-known musical streaming service, with a responsive layout made with media-queries mobile-first.',
                 'image' => '',
             ],
             [
                 'title' => 'Bootstrap Freelance',
-                'description' => 'A responsive layout totally created by using Bootstrap classes and components.',
+                'description' => 'A responsive layout totally created by using Bootstrap classes.',
                 'image' => '',
             ],
             [

@@ -26,8 +26,8 @@
             <td>{{ $project->title }}</td>
             <td>{{ $project->type ? $project->type->label : '-' }}</td>
             <td>
-                @forelse($technologies as $technology)
-                {{ $project->technology ? $project->technology : ''}}
+                @forelse($project->technologies as $technology)
+                {{ $technology->label }}
                 @empty
                 Nessuno
                 @endforelse
