@@ -49,7 +49,8 @@ class ProjectController extends Controller
             'technologies' => 'nullable|exists:technologies,id'
         ]);
         
-        
+        dd($data);
+
         $project = new Project();
         
         $project->fill($data);
@@ -104,6 +105,8 @@ class ProjectController extends Controller
             'type_id' => 'nullable|exists:types,id',
             'technologies' => 'nullable|exists:technologies,id'
         ]);
+
+       
 
         // if(Arr::exists($data, 'image')){
         //     $extension = $data['image']->extension();

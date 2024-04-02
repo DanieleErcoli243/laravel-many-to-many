@@ -22,7 +22,7 @@
         <div class="tech-checks">
             @foreach($technologies as $technology)
             <label for="{{ "technology-$technology->id" }}">{{ $technology->label }}</label>
-            <input type="checkbox" name="tehcnologies[]" id="{{ "technology-$technology->id" }}" value="{{ $technology->id }}" @if(in_array($technology->id, old('technologies', $prev_technologies ?? []))) checked @endif>
+            <input type="checkbox" name="technologies[]" id="{{ "technology-$technology->id" }}" value="{{ $technology->id }}" @if(in_array($technology->id, old('technologies', $prev_technologies ?? []))) checked @endif>
             @endforeach
         </div>
         <label for="description">Inserisci una breve descrizione</label>
